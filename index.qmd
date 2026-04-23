@@ -487,17 +487,23 @@ Similar variable types, no impossible values, similar scales
 
 Evaluate by inspecting the data and making visualizations
 
+- Histograms
+- Density plots
+- Summary statistics
+
 ## Analysis specific utility
 
-Compare estimates of observed and synthetic data analysis; confidence interval overlap
+Do analyses on observed and synthetic data yield similar results?
+
+Compare estimates; confidence interval overlap
 
 ```{r}
 #| label: CIO-fig
 #| echo: false
 #| message: false
 #| warning: false
-#| fig-width: 9
-#| fig-height: 4
+#| fig-width: 11
+#| fig-height: 6
 
 
 library(ggplot2)
