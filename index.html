@@ -421,27 +421,37 @@ f(D_{syn}|\theta)
 </ul>
 </div>
 </section></section>
-<section>
 <section id="privacy-risks-are-often-more-a-property-of-the-synthesis-method" class="title-slide slide level1 center">
 <h1>Privacy risks are often more a property of the synthesis method</h1>
 
 </section>
-<section id="evaluating-synthetic-data-utility-1" class="slide level2">
-<h2>Evaluating synthetic data utility (1)</h2>
-<p><strong>Fit for purpose</strong></p>
+
+<section>
+<section id="evaluating-synthetic-data-utility" class="title-slide slide level1 center">
+<h1>Evaluating synthetic data utility</h1>
+<ol type="1">
+<li><p>Fit-for-purpose</p></li>
+<li><p>Analysis-specific utlity</p></li>
+<li><p>Global utility</p></li>
+</ol>
+</section>
+<section id="fit-for-purpose-measures" class="slide level2">
+<h2>Fit for purpose measures</h2>
 <p>Similar variable types, no impossible values, similar scales</p>
 <p>Evaluate by inspecting the data and making visualizations</p>
 </section>
-<section id="evaluating-synthetic-data-utility-2" class="slide level2">
-<h2>Evaluating synthetic data utility (2)</h2>
-<p><strong>Analysis specific utility</strong>: Compare estimates of observed and synthetic data analysis; confidence interval overlap</p>
+<section id="analysis-specific-utility" class="slide level2">
+<h2>Analysis specific utility</h2>
+<p>Compare estimates of observed and synthetic data analysis; confidence interval overlap</p>
 
 <img data-src="index_files/figure-revealjs/CIO-fig-1.png" width="864" class="r-stretch"></section>
-<section id="evaluating-synthetic-data-utility-3" class="slide level2">
-<h2>Evaluating synthetic data utility (3)</h2>
-<p><strong>Global utility</strong>:</p>
+<section id="global-utility-measures" class="slide level2">
+<h2>Global utility measures</h2>
+<p>Where do the observed and synthetic data distributions diverge?</p>
 <ul>
-<li><p>Density ratio (with <code>densityratio</code> R-package): <span class="math inline">\(p_{obs}(\mathbf{x})\)</span>/<span class="math inline">\(p_{syn}(\mathbf{x})\)</span></p></li>
+<li><p>Density ratio (with <code>densityratio</code> R-package) <span class="math display">\[
+r(\mathbf{x}) = \frac{p_{obs}(\mathbf{x})}{p_{syn}(\mathbf{x})}
+\]</span></p></li>
 <li><p>Classifier-based testing: can we predict which values are real and which are synthetic?</p></li>
 </ul>
 </section>
@@ -454,7 +464,7 @@ f(D_{syn}|\theta)
 <section id="questions-comments" class="title-slide slide level1 center">
 <h1>Questions / comments?</h1>
 <p>Feel free to reach out: <a href="mailto:t.b.volker@uu.nl">t.b.volker@uu.nl</a></p>
-<p>Slides: <a href="">https://github.com/thomvolker/synzuerich/</a></p>
+<p>Slides: <a href="https://github.com/thomvolker/synzuerich/">https://github.com/thomvolker/synzuerich/</a></p>
 
 </section>
     </div>

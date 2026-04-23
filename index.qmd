@@ -473,17 +473,23 @@ __Attribute disclosure__: characteristics about individuals can be learned with 
 
 # Privacy risks are often more a property of the synthesis method
 
-## Evaluating synthetic data utility (1)
+# Evaluating synthetic data utility
 
-__Fit for purpose__
+1. Fit-for-purpose
+
+2. Analysis-specific utlity
+
+3. Global utility
+
+## Fit for purpose measures
 
 Similar variable types, no impossible values, similar scales
 
 Evaluate by inspecting the data and making visualizations
 
-## Evaluating synthetic data utility (2)
+## Analysis specific utility
 
-__Analysis specific utility__: Compare estimates of observed and synthetic data analysis; confidence interval overlap
+Compare estimates of observed and synthetic data analysis; confidence interval overlap
 
 ```{r}
 #| label: CIO-fig
@@ -543,13 +549,18 @@ ggplot() +
     )
 ```
 
-## Evaluating synthetic data utility (3)
+## Global utility measures
 
-__Global utility__: 
+Where do the observed and synthetic data distributions diverge?
 
-- Density ratio (with `densityratio` R-package): $p_{obs}(\mathbf{x})$/$p_{syn}(\mathbf{x})$
+- Density ratio (with `densityratio` R-package)
+$$
+r(\mathbf{x}) = \frac{p_{obs}(\mathbf{x})}{p_{syn}(\mathbf{x})}
+$$
 
 - Classifier-based testing: can we predict which values are real and which are synthetic?
+
+
 
 ## Publishing synthetic data
 
@@ -565,5 +576,5 @@ Be as explicit as possible about how the data is generated and what can and cann
 
 Feel free to reach out: [t.b.volker@uu.nl](mailto:t.b.volker@uu.nl)
 
-Slides: [https://github.com/thomvolker/synzuerich/]()
+Slides: [https://github.com/thomvolker/synzuerich/](https://github.com/thomvolker/synzuerich/)
 
