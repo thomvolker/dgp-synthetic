@@ -14,117 +14,16 @@ format:
     slide-number: true
 ---
 
-## Open data is the pinnacle of open science
+## Synthetic data
 
-::: {.columns}
+:::{.r-stack}
 
-::: {.column width="60%"}
+![](boys_observed.jpg){.fragment .fade-out fragment-index=1}
 
-- Transparency (_with analysis code_)
-- Learning from colleagues
-- Potential for follow-up analyses
-- Eases research synthesis
+![](boys_synthetic.jpg){.fragment .fade-in fragment-index=1}
 
 :::
 
-::: {.column width="25%"}
-
-![](badges.png)
-
-:::
-
-:::
-
-
-But when the data is sensitive, openly disseminating research data is not possible.
-
-<!--
-Content: open data; privacy concerns
-Synthetic data: key goals; simple generating mechanism, more complex mechanisms
-Connection to large language models and other deep learning models
-Synthesis strategy
-Synthesis model
-Synthetic data quality
-Privacy utility trade-off
-Formal privacy guarantees
-Software solutions and tutorials
--->
-
-## When open data is not allowed ...
-
-- Data is simply not available, bye!
-
-- "Data is available upon reasonable request."
-
-- Data is on a secure server with data access procedures.
-
-
-:::{.fragment}
-:::{.emph}
-::: {.columns}
-::: {.column width="60%"}
-
-<br>
-
-__Solution__: _synthetic data_
-
-:::
-
-::: {.column width="20%"}
-
-![](noun-magic.png)
-
-:::
-
-:::
-
-:::
-:::
-
-
-## About me
-
-::: {.columns}
-:::: {.column width="60%"}
-Thom Benjamin Volker
-
-- Utrecht University \& Statistics Netherlands
-- PhD. Candidate in Methodology and Statistics
-::::
-
-:::: {.column width="5%"}
-<br>
-::::
-
-:::: {.column width="25%"}
-![](me_bike.jpg){style="border-radius:30px; overflow:hidden; border:2px solid #12244d"}
-::::
-
-:::
-
-__Research interests__: methods to enhance _data privacy_, _synthetic data_ and multiple imputation of _missing data_.
-
-## About me
-
-::: {.columns}
-:::: {.column width="60%"}
-_Thorben van Meij-Kolm_
-
-- _DSM-Firmenich_
-- _Data scientist_
-::::
-
-:::: {.column width="5%"}
-<br>
-::::
-
-:::: {.column width="25%"}
-![](someone_run.png){style="border-radius:30px; overflow:hidden; border:2px solid #12244d"}
-::::
-
-:::
-
-__Research interests__: _forecasting, A/B testing_.
 
 ## Synthetic data
 
@@ -143,6 +42,84 @@ Generate new samples from this model
 - What information flows into the model can be bounded
 
 - Modelled relationships that appear in the real data are preserved
+
+## Is anonymizing not enough? 
+
+If done well, anonymization might suffice.
+
+But: data might be linked in suprising ways.
+
+With enough variables, every record becomes unique.
+
+## Netflix prize data
+
+Dataset with movie ratings provided by Netflix: movie rating (1-5); submission date (within 14 days)
+
+:::{.fragment}
+
+:::{.emph}
+
+Narayanan & Shmatikov ([2008](https://systems.cs.columbia.edu/private-systems-class/papers/Narayanan2008Robust.pdf)) identified 99% of the records
+
+- 8 movie ratings of which 2 were allowed to be incorrect, and dates within a 2 weeks margin.
+
+- Linking to [International Movie Database](https://imdb.com)
+
+:::
+
+:::
+
+
+## Generating synthetic data
+
+1. Privacy risk assessment: _anonymization; identifying sensitive variables_
+
+2. What's the goal of the synthetic data: _Dummy data, teaching, replication, novel research_?
+
+3. Choosing a synthetic data model _that fits this goal_
+
+4. Evaluating risk and utility
+
+5. Refinements necessary?
+
+## Generating synthetic data
+
+You need a generative model
+
+$$
+f(D_{syn}|\theta)
+$$
+
+You require an (implicit or explicit) model $f$ for the data $D$ with parameters $\theta$
+
+_Parameters are typically learned from real data; as opposed to simulated data._
+
+# Don't you ever!
+
+![](chatsyn.png)
+
+
+## Conditional modelling
+
+Building one model per variable is often easier (conceptually) and provides a lot of flexibility
+
+- Model checking (posterior predictive checks)
+
+- Easier to make refinements
+
+- More obvious what information ends up in synthetic data
+
+__Software__: [synthpop](https://www.synthpop.org.uk/)^[Nowok, Raab & Dibben (2016): [https://www.synthpop.org.uk/](https://www.synthpop.org.uk/)] (`R`, `python`); [simPop](https://github.com/statistikat/simPop) (`R`)^[Templ, Meindl, Kowarik & Dupriez (2017): [https://github.com/statistikat/simPop](https://github.com/statistikat/simPop)]
+
+## Non-parametric joint modelling
+
+Often based on deep-learning or copulas
+
+Superior for structured data (images, geo-spatial data, fMRI)
+
+Hard to know and communicate what information ends up in the synthetic data
+
+__Software__: [Synthetic Data Vault (sdv)](https://github.com/sdv-dev/sdv)^[Patki, Wedge & Veeramachaneni, K. (2016): [https://github.com/sdv-dev/sdv](https://github.com/sdv-dev/sdv)], [synthcity](https://github.com/vanderschaarlab/synthcity)^[Qian, Cebere & van der Schaar (2023): [https://github.com/vanderschaarlab/synthcity](https://github.com/vanderschaarlab/synthcity)]; [RGAN](https://github.com/mneunhoe/RGAN)^[Neunhoeffer (2026): [https://github.com/mneunhoe/RGAN](https://github.com/mneunhoe/RGAN)].
 
 ## The privacy-utility trade-off
 
@@ -174,100 +151,7 @@ ggplot(data = data.frame(
   scale_color_manual(values = c("#009933"))
 ```
 
-<!--TODO: Expand the conceptual introduction -->
-
-## Is anonymizing not enough? 
-
-If done well, anonymization might suffice.
-
-But: data might be linked in suprising ways.
-
-With enough variables, every record becomes unique.
-
-# 
-
-> Narayanan & Shmatikov ([2008](https://systems.cs.columbia.edu/private-systems-class/papers/Narayanan2008Robust.pdf)) identified 99% of the records in the (anonymized!) Netflix Prize Data based on some crude information
-
-## Advantages of synthetic data
-
-Privacy can be well protected
-
-- No real records anymore
-
-- Information that goes into synthesis model can be bounded
-
-A large amount of information can be preserved
-
-- Important information can be modelled explicitly
-
-## Disadvantages
-
-Quality of synthetic data depends entirely on synthesis model
-
-- Too simple models might omit important relationships 
-
-- Complex synthesis models obscure what information is reproduced in the synthetic data
-
-## Generating synthetic data
-
-1. Privacy risk assessment
-
-2. What's the goal of the synthetic data?
-
-3. Choosing the synthetic data model
-
-4. Evaluating risk and utility
-
-5. Refinements necessary?
-
-## Privacy risk assessment
-
-Anonymization: remove directly identifying information.
-
-- Names, ID numbers, addresses, user ID's
-
-- Often unique and hard to synthesize
-
-Evaluate outliers: might be directly identifying
-
-Identify sensitive variables: consider recoding and coarsening
-
-## What should be achievable with the synthetic data?
-
-- Dummy data?
-
-- Teaching?
-
-- Replication?
-
-- Novel research?
-
-:::{.fragment}
-> Is the real data eventually available in a secure environment?
-:::
-
-## Generating synthetic data
-
-You need a generative model
-
-$$
-f(D_{syn}|\theta)
-$$
-
-You require an (implicit or explicit) model $f$ for the data $D$ with parameters $\theta$
-
-_Parameters are typically learned from real data; as opposed to simulated data._
-
-# Don't you ever!
-
-![](chatsyn.png)
-
-
-# Choosing a synthetic data model
-
-> What information do you want to preserve?
-
-## The privacy-utility trade-off once again
+## The privacy-utility trade-off illustrated
 
 ```{r}
 #| echo: false
@@ -376,40 +260,6 @@ basic +
     ylim(-2, 30)
 ```
 
-## Generating dummy data
-
-Synthesize univariately
-
-Easy to bound information that goes into synthesis model
-
-
-> __Limited fidelity, but can be highly useful still!__ <br> E.g., getting familiar with the data, code checking, model building, script writing (code to data procedures)
-
-## Software for generating dummy data
-
-[python library `metasyn`](https://github.com/sodascience/metasyn)
-
-![](metasyn-git.png)
-
-## `metasyn`
-
-- Fit a set of parametric distributions to the observed data
-
-- Select best fitting model based on information criterion
-
-- Sample new data from this model
-
-- Additional implementations for strings (names, addresses) and dates
-
-- Additional plugins for enhanced privacy settings
-
-## High-fidelity synthetic data
-
-- Conditional modelling versus joint modelling
-
-- Parametric versus non-parametric learning
-
-- Fully versus partially synthetic data
 
 ## Bounding information flow into synthesis model
 
@@ -429,158 +279,125 @@ For non-parametric models:
 Only formal privacy framework as of yet
 :::
 
-- Bounds the maximum influence a single individual can have on a model
+- Sensitivity: bounds the maximum influence a single individual can have on a model
 
 - Adds noise such that the results are almost equivalent regardless of whether this maximally influential individual was present in the data
 
-- Often performs poorly for conservative values of the privacy parameter
+## Differential privacy for a count
 
-## Non-parametric joint modelling
+Say we have $n = 100$ individuals in our data without or with a disease (0/1)
 
-Often based on deep-learning or copulas
+```{r}
+#| include: false
+library(ggplot2)
 
-Superior for structured data (images, geo-spatial data, fMRI)
+f    <- c(26, 27)                 # f(D) and f(D')
+b    <- 1                         # scale = Delta f / epsilon
+lap  <- function(x, mu, b) exp(-abs(x - mu) / b) / (2 * b)
+cols <- c("f(D) = 26" = "#1B2A5B", "f(D\u2032) = 27" = "#4A78C4")
 
-Hard to know and communicate what information ends up in the synthetic data
+x <- seq(22, 31, 0.01)
+d <- rbind(data.frame(x, P = lap(x, f[1], b), f = names(cols)[1]),
+           data.frame(x, P = lap(x, f[2], b), f = names(cols)[2]))
 
-__Software__: [Synthetic Data Vault (sdv)](https://github.com/sdv-dev/sdv), [synthcity](https://github.com/vanderschaarlab/synthcity) (`python`); [RGAN](https://github.com/mneunhoe/RGAN)
+dmax <- 1 / (2 * b)                       # peak of the Laplace density
+bars <- data.frame(x = f, P = dmax, f = names(cols))
 
-## Conditional modelling
+p <- ggplot(d, aes(x, P, colour = f)) +
+    geom_segment(data = bars, aes(x = x, xend = x, y = 0, yend = P),
+                 linewidth = .8, linetype = 2) +
+    annotate("segment", x = f[1], xend = f[2], y = dmax * 1.08, yend = dmax * 1.08,
+             arrow = arrow(ends = "both", length = unit(.15, "cm"))) +
+    annotate("text", x = mean(f), y = dmax * 1.17, label = "Delta*f == 1", parse = TRUE) +
+    scale_colour_manual(values = cols, name = NULL) +
+    coord_cartesian(xlim = range(x), ylim = c(0, dmax * 1.25)) +
+    theme_minimal(base_size = 14) +
+    theme(
+      legend.position = "bottom",
+      panel.background = element_rect(fill = '#fffbf2', colour = NA),
+      plot.background = element_rect(fill = '#fffbf2', colour = NA)
+    ) +
+    labs(y = " ")
+```
 
-Building one model per variable is often easier (conceptually) and provides a lot of flexibility
+::: {.columns}
 
-- Model checking (posterior predictive checks)
+::: {.column width="45%"}
 
-- Easier to make refinements
+- Goal: estimate number of individuals with disease
 
-- More obvious what information ends up in synthetic data
-
-__Software__: [synthpop](https://www.synthpop.org.uk/) (`R`, `python` still in development)
-
-
-## Evaluating privacy risk
-
-__Identity disclosure__: can we infer whether a particular individual was part of a data 
-
-* Usually not a big deal, unless identifying are also sensitive (e.g., extremely large incomes are reproduced)
-
-:::{.fragment}
-__Attribute disclosure__: characteristics about individuals can be learned with near certainty
-
-* E.g., all records with the same set of identifying characteristics also share a common sensitive attribute
+- __Sensitivity__: Altering one individual affects our estimate with at most $1$
 
 :::
 
-# Privacy risks are often more a property of the synthesis method
+::: {.column width="55%"}
 
-# Evaluating synthetic data utility
+::: {.r-stack}
 
-1. Fit-for-purpose
-
-2. Analysis-specific utlity
-
-3. Global utility
-
-## Fit for purpose measures
-
-Similar variable types, no impossible values, similar scales
-
-Evaluate by inspecting the data and making visualizations
-
-- Histograms
-- Density plots
-- Summary statistics
-
-## Analysis specific utility
-
-Do analyses on observed and synthetic data yield similar results?
-
-Compare estimates; confidence interval overlap
+::: {.fragment .fade-out fragment-index=1}
 
 ```{r}
-#| label: CIO-fig
 #| echo: false
-#| message: false
-#| warning: false
-#| fig-width: 11
-#| fig-height: 6
-
-
-library(ggplot2)
-
-ggplot() +
-    geom_point(
-        aes(x = c(0.1, 0.5), y = c(0.5, 0.5), col = "Observed")
-    ) +
-    geom_point(
-        aes(x = c(-0.1, 0.4), y = c(0.45, 0.45), col = "Synthetic")
-    ) +
-    geom_text(
-        aes(x = c(0.1, 0.5), 
-            y = c(0.5, 0.5), 
-            label = c(paste(expression(L[obs])), 
-                      paste(expression(U[obs]))),
-            col = "Observed"),
-        parse = TRUE,
-        hjust = -0.1,
-        vjust = -0.15
-    ) +
-    geom_text(
-        aes(x = c(-0.1, 0.4), 
-            y = c(0.45, 0.45), 
-            label = c(paste(expression(L[syn])), 
-                      paste(expression(U[syn]))),
-            col = "Synthetic"),
-        parse = TRUE,
-        hjust = -0.1,
-        vjust = -0.15
-    ) +
-    geom_segment(
-        aes(y = 0.5, x = 0.1, xend = 0.5, col = "Observed"),
-        lineend = "square"
-    ) +
-    geom_segment(
-        aes(y = 0.45, x = -0.1, xend = 0.4, col = "Synthetic"),
-        lineend = "square"
-    ) +
-    geom_vline(aes(xintercept = c(0.1, 0.4)), linetype = 2) +
-    ylim(0.35, 0.6) +
-    xlim(-0.15, 0.55) +
-    scale_color_brewer(palette = "Set1") +
-    theme_minimal() +
-    labs(x = NULL, y = NULL, col = NULL) +
-    theme(
-      panel.background = element_rect(fill = '#fffbf2'),
-      plot.background = element_rect(fill = '#fffbf2')
-    )
+#| fig-width: 7
+#| fig-height: 5
+p
 ```
 
-## Global utility measures
+:::
 
-Where do the observed and synthetic data distributions diverge?
+::: {.fragment .fade-in fragment-index=1}
 
-- Density ratio (with `densityratio` R-package)
-$$
-r(\mathbf{x}) = \frac{p_{obs}(\mathbf{x})}{p_{syn}(\mathbf{x})}
-$$
+```{r}
+#| echo: false
+#| fig-width: 7
+#| fig-height: 5
+p +
+    geom_line(linewidth = 1) +
+    annotate("segment", x = 25, xend = 25, y = lap(25, 27, b), yend = lap(25, 26, b),
+             colour = "grey40") +
+    labs(y = "density")
+```
 
-- Classifier-based testing: can we predict which values are real and which are synthetic?
+:::
+
+:::
+
+:::
+
+:::
 
 
+## Advantages of synthetic data
 
-## Publishing synthetic data
+Privacy can be well protected
 
-Put privacy over utility!
+- No real records anymore
 
-Make clear the data is synthetic: filename, title, description, variable names?
+- Information that goes into synthesis model can be bounded
 
-Be as explicit as possible about how the data is generated and what can and cannot be done with it.
+A large amount of information can be preserved
 
+- Important information can be modelled explicitly
 
+## Disadvantages
+
+Quality of synthetic data depends entirely on synthesis model
+
+- Too simple models might omit important relationships 
+
+- Complex synthesis models obscure what information is reproduced in the synthetic data
+
+## Some helpful resources
+
+- Overview: Drechsler & Haensch (2024). 30 years of synthetic data. Statistical Science, 39(2), 221-242.
+
+- Tutorial: Volker (2025). Genearting and evaluating synthetic data in R. LMU Open Science Center. [https://doi.org/10.5281/zenodo.18318778](https://doi.org/10.5281/zenodo.18318778)
+
+- `synthpop` webpage with practical advice: [https://www.synthpop.org.uk/resources.html](https://www.synthpop.org.uk/resources.html)
 
 # Questions / comments?
 
 Feel free to reach out: [t.b.volker@uu.nl](mailto:t.b.volker@uu.nl)
 
-Slides: [https://github.com/thomvolker/synzuerich/](https://github.com/thomvolker/synzuerich/)
+Slides: [https://github.com/thomvolker/dgp-synthetic/](https://github.com/thomvolker/dgp-synthetic/)
 

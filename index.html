@@ -145,84 +145,14 @@
 </div>
 
 </section>
-<section id="open-data-is-the-pinnacle-of-open-science" class="slide level2">
-<h2>Open data is the pinnacle of open science</h2>
-<div class="columns">
-<div class="column" style="width:60%;">
-<ul>
-<li>Transparency (<em>with analysis code</em>)</li>
-<li>Learning from colleagues</li>
-<li>Potential for follow-up analyses</li>
-<li>Eases research synthesis</li>
-</ul>
-</div><div class="column" style="width:25%;">
-<p><img data-src="badges.png"></p>
-</div></div>
-<p>But when the data is sensitive, openly disseminating research data is not possible.</p>
-<!--
-Content: open data; privacy concerns
-Synthetic data: key goals; simple generating mechanism, more complex mechanisms
-Connection to large language models and other deep learning models
-Synthesis strategy
-Synthesis model
-Synthetic data quality
-Privacy utility trade-off
-Formal privacy guarantees
-Software solutions and tutorials
--->
-</section>
-<section id="when-open-data-is-not-allowed" class="slide level2">
-<h2>When open data is not allowed …</h2>
-<ul>
-<li><p>Data is simply not available, bye!</p></li>
-<li><p>“Data is available upon reasonable request.”</p></li>
-<li><p>Data is on a secure server with data access procedures.</p></li>
-</ul>
-<div class="fragment">
-<div class="emph">
-<div class="columns">
-<div class="column" style="width:60%;">
-<p><br></p>
-<p><strong>Solution</strong>: <em>synthetic data</em></p>
-</div><div class="column" style="width:20%;">
-<p><img data-src="noun-magic.png"></p>
-</div></div>
-</div>
-</div>
-</section>
-<section id="about-me" class="slide level2">
-<h2>About me</h2>
-<div class="columns">
-<div class="column" style="width:60%;">
-<p>Thom Benjamin Volker</p>
-<ul>
-<li>Utrecht University &amp; Statistics Netherlands</li>
-<li>PhD. Candidate in Methodology and Statistics</li>
-</ul>
-</div><div class="column" style="width:5%;">
-<p><br></p>
-</div><div class="column" style="width:25%;">
-<p><img data-src="me_bike.jpg" style="border-radius:30px; overflow:hidden; border:2px solid #12244d"></p>
-</div></div>
-<p><strong>Research interests</strong>: methods to enhance <em>data privacy</em>, <em>synthetic data</em> and multiple imputation of <em>missing data</em>.</p>
-</section>
-<section id="about-me-1" class="slide level2">
-<h2>About me</h2>
-<div class="columns">
-<div class="column" style="width:60%;">
-<p><em>Thorben van Meij-Kolm</em></p>
-<ul>
-<li><em>DSM-Firmenich</em></li>
-<li><em>Data scientist</em></li>
-</ul>
-</div><div class="column" style="width:5%;">
-<p><br></p>
-</div><div class="column" style="width:25%;">
-<p><img data-src="someone_run.png" style="border-radius:30px; overflow:hidden; border:2px solid #12244d"></p>
-</div></div>
-<p><strong>Research interests</strong>: <em>forecasting, A/B testing</em>.</p>
-</section>
 <section id="synthetic-data" class="slide level2">
+<h2>Synthetic data</h2>
+<div class="r-stack">
+<p><img data-src="boys_observed.jpg" class="fragment fade-out" data-fragment-index="1"></p>
+<p><img data-src="boys_synthetic.jpg" class="fragment fade-in" data-fragment-index="1"></p>
+</div>
+</section>
+<section id="synthetic-data-1" class="slide level2">
 <h2>Synthetic data</h2>
 <blockquote>
 <p>Synthetic data is data that is generated from a statistical model, as opposed to real, collected data</p>
@@ -239,23 +169,132 @@ Software solutions and tutorials
 <li><p>Modelled relationships that appear in the real data are preserved</p></li>
 </ul>
 </section>
-<section id="the-privacy-utility-trade-off" class="slide level2">
-<h2>The privacy-utility trade-off</h2>
-
-<!--TODO: Expand the conceptual introduction -->
-<img data-src="index_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
 <section id="is-anonymizing-not-enough" class="slide level2">
 <h2>Is anonymizing not enough?</h2>
 <p>If done well, anonymization might suffice.</p>
 <p>But: data might be linked in suprising ways.</p>
 <p>With enough variables, every record becomes unique.</p>
 </section>
+<section id="netflix-prize-data" class="slide level2">
+<h2>Netflix prize data</h2>
+<p>Dataset with movie ratings provided by Netflix: movie rating (1-5); submission date (within 14 days)</p>
+<div class="fragment">
+<div class="emph">
+<p>Narayanan &amp; Shmatikov (<a href="https://systems.cs.columbia.edu/private-systems-class/papers/Narayanan2008Robust.pdf">2008</a>) identified 99% of the records</p>
+<ul>
+<li><p>8 movie ratings of which 2 were allowed to be incorrect, and dates within a 2 weeks margin.</p></li>
+<li><p>Linking to <a href="https://imdb.com">International Movie Database</a></p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="generating-synthetic-data" class="slide level2">
+<h2>Generating synthetic data</h2>
+<ol type="1">
+<li><p>Privacy risk assessment: <em>anonymization; identifying sensitive variables</em></p></li>
+<li><p>What’s the goal of the synthetic data: <em>Dummy data, teaching, replication, novel research</em>?</p></li>
+<li><p>Choosing a synthetic data model <em>that fits this goal</em></p></li>
+<li><p>Evaluating risk and utility</p></li>
+<li><p>Refinements necessary?</p></li>
+</ol>
+</section>
+<section id="generating-synthetic-data-1" class="slide level2">
+<h2>Generating synthetic data</h2>
+<p>You need a generative model</p>
+<p><span class="math display">\[
+f(D_{syn}|\theta)
+\]</span></p>
+<p>You require an (implicit or explicit) model <span class="math inline">\(f\)</span> for the data <span class="math inline">\(D\)</span> with parameters <span class="math inline">\(\theta\)</span></p>
+<p><em>Parameters are typically learned from real data; as opposed to simulated data.</em></p>
+</section>
 <section>
-<section id="section" class="title-slide slide level1 center">
-<h1></h1>
-<blockquote>
-<p>Narayanan &amp; Shmatikov (<a href="https://systems.cs.columbia.edu/private-systems-class/papers/Narayanan2008Robust.pdf">2008</a>) identified 99% of the records in the (anonymized!) Netflix Prize Data based on some crude information</p>
-</blockquote>
+<section id="dont-you-ever" class="title-slide slide level1 center">
+<h1>Don’t you ever!</h1>
+
+<img data-src="chatsyn.png" class="r-stretch"></section>
+<section id="conditional-modelling" class="slide level2">
+<h2>Conditional modelling</h2>
+<p>Building one model per variable is often easier (conceptually) and provides a lot of flexibility</p>
+<ul>
+<li><p>Model checking (posterior predictive checks)</p></li>
+<li><p>Easier to make refinements</p></li>
+<li><p>More obvious what information ends up in synthetic data</p></li>
+</ul>
+<p><strong>Software</strong>: <a href="https://www.synthpop.org.uk/">synthpop</a><sup>1</sup> (<code>R</code>, <code>python</code>); <a href="https://github.com/statistikat/simPop">simPop</a> (<code>R</code>)<sup>2</sup></p>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Nowok, Raab &amp; Dibben (2016): <a href="https://www.synthpop.org.uk/">https://www.synthpop.org.uk/</a></p></li><li id="fn2"><p>Templ, Meindl, Kowarik &amp; Dupriez (2017): <a href="https://github.com/statistikat/simPop">https://github.com/statistikat/simPop</a></p></li></ol></aside></section>
+<section id="non-parametric-joint-modelling" class="slide level2">
+<h2>Non-parametric joint modelling</h2>
+<p>Often based on deep-learning or copulas</p>
+<p>Superior for structured data (images, geo-spatial data, fMRI)</p>
+<p>Hard to know and communicate what information ends up in the synthetic data</p>
+<p><strong>Software</strong>: <a href="https://github.com/sdv-dev/sdv">Synthetic Data Vault (sdv)</a><sup>1</sup>, <a href="https://github.com/vanderschaarlab/synthcity">synthcity</a><sup>2</sup>; <a href="https://github.com/mneunhoe/RGAN">RGAN</a><sup>3</sup>.</p>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>Patki, Wedge &amp; Veeramachaneni, K. (2016): <a href="https://github.com/sdv-dev/sdv">https://github.com/sdv-dev/sdv</a></p></li><li id="fn4"><p>Qian, Cebere &amp; van der Schaar (2023): <a href="https://github.com/vanderschaarlab/synthcity">https://github.com/vanderschaarlab/synthcity</a></p></li><li id="fn5"><p>Neunhoeffer (2026): <a href="https://github.com/mneunhoe/RGAN">https://github.com/mneunhoe/RGAN</a></p></li></ol></aside></section>
+<section id="the-privacy-utility-trade-off" class="slide level2">
+<h2>The privacy-utility trade-off</h2>
+
+<img data-src="index_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
+<section id="the-privacy-utility-trade-off-illustrated" class="slide level2">
+<h2>The privacy-utility trade-off illustrated</h2>
+
+<img data-src="index_files/figure-revealjs/unnamed-chunk-2-1.png" width="864" class="r-stretch"></section>
+<section id="bounding-information-flow-into-synthesis-model" class="slide level2">
+<h2>Bounding information flow into synthesis model</h2>
+<p>Traditionally: restricting to simpler models</p>
+<ul>
+<li>(Generalized) linear models; identifying influential cases (leverage; degrees of freedom per parameter)</li>
+</ul>
+<p>For non-parametric models:</p>
+<ul>
+<li><p>Regularization</p></li>
+<li><p>Differential privacy</p></li>
+</ul>
+</section></section>
+<section>
+<section id="differential-privacy" class="title-slide slide level1 center">
+<h1>Differential privacy</h1>
+<div class="emph-header">
+<p>Only formal privacy framework as of yet</p>
+</div>
+<ul>
+<li><p>Sensitivity: bounds the maximum influence a single individual can have on a model</p></li>
+<li><p>Adds noise such that the results are almost equivalent regardless of whether this maximally influential individual was present in the data</p></li>
+</ul>
+</section>
+<section id="differential-privacy-for-a-count" class="slide level2">
+<h2>Differential privacy for a count</h2>
+<p>Say we have <span class="math inline">\(n = 100\)</span> individuals in our data without or with a disease (0/1)</p>
+<div class="columns">
+<div class="column" style="width:45%;">
+<ul>
+<li><p>Goal: estimate number of individuals with disease</p></li>
+<li><p><strong>Sensitivity</strong>: Altering one individual affects our estimate with at most <span class="math inline">\(1\)</span></p></li>
+</ul>
+</div><div class="column" style="width:55%;">
+<div class="r-stack">
+<div class="fragment fade-out" data-fragment-index="1">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-4-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment fade-in" data-fragment-index="1">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="index_files/figure-revealjs/unnamed-chunk-5-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div>
 </section>
 <section id="advantages-of-synthetic-data" class="slide level2">
 <h2>Advantages of synthetic data</h2>
@@ -277,202 +316,22 @@ Software solutions and tutorials
 <li><p>Complex synthesis models obscure what information is reproduced in the synthetic data</p></li>
 </ul>
 </section>
-<section id="generating-synthetic-data" class="slide level2">
-<h2>Generating synthetic data</h2>
-<ol type="1">
-<li><p>Privacy risk assessment</p></li>
-<li><p>What’s the goal of the synthetic data?</p></li>
-<li><p>Choosing the synthetic data model</p></li>
-<li><p>Evaluating risk and utility</p></li>
-<li><p>Refinements necessary?</p></li>
-</ol>
-</section>
-<section id="privacy-risk-assessment" class="slide level2">
-<h2>Privacy risk assessment</h2>
-<p>Anonymization: remove directly identifying information.</p>
+<section id="some-helpful-resources" class="slide level2">
+<h2>Some helpful resources</h2>
 <ul>
-<li><p>Names, ID numbers, addresses, user ID’s</p></li>
-<li><p>Often unique and hard to synthesize</p></li>
+<li><p>Overview: Drechsler &amp; Haensch (2024). 30 years of synthetic data. Statistical Science, 39(2), 221-242.</p></li>
+<li><p>Tutorial: Volker (2025). Genearting and evaluating synthetic data in R. LMU Open Science Center. <a href="https://doi.org/10.5281/zenodo.18318778">https://doi.org/10.5281/zenodo.18318778</a></p></li>
+<li><p><code>synthpop</code> webpage with practical advice: <a href="https://www.synthpop.org.uk/resources.html">https://www.synthpop.org.uk/resources.html</a></p></li>
 </ul>
-<p>Evaluate outliers: might be directly identifying</p>
-<p>Identify sensitive variables: consider recoding and coarsening</p>
-</section>
-<section id="what-should-be-achievable-with-the-synthetic-data" class="slide level2">
-<h2>What should be achievable with the synthetic data?</h2>
-<ul>
-<li><p>Dummy data?</p></li>
-<li><p>Teaching?</p></li>
-<li><p>Replication?</p></li>
-<li><p>Novel research?</p></li>
-</ul>
-<div class="fragment">
-<blockquote>
-<p>Is the real data eventually available in a secure environment?</p>
-</blockquote>
-</div>
-</section>
-<section id="generating-synthetic-data-1" class="slide level2">
-<h2>Generating synthetic data</h2>
-<p>You need a generative model</p>
-<p><span class="math display">\[
-f(D_{syn}|\theta)
-\]</span></p>
-<p>You require an (implicit or explicit) model <span class="math inline">\(f\)</span> for the data <span class="math inline">\(D\)</span> with parameters <span class="math inline">\(\theta\)</span></p>
-<p><em>Parameters are typically learned from real data; as opposed to simulated data.</em></p>
-</section></section>
-<section id="dont-you-ever" class="title-slide slide level1 center">
-<h1>Don’t you ever!</h1>
-
-<img data-src="chatsyn.png" class="r-stretch"></section>
-
-<section>
-<section id="choosing-a-synthetic-data-model" class="title-slide slide level1 center">
-<h1>Choosing a synthetic data model</h1>
-<blockquote>
-<p>What information do you want to preserve?</p>
-</blockquote>
-</section>
-<section id="the-privacy-utility-trade-off-once-again" class="slide level2">
-<h2>The privacy-utility trade-off once again</h2>
-
-<img data-src="index_files/figure-revealjs/unnamed-chunk-2-1.png" width="864" class="r-stretch"></section>
-<section id="generating-dummy-data" class="slide level2">
-<h2>Generating dummy data</h2>
-<p>Synthesize univariately</p>
-<p>Easy to bound information that goes into synthesis model</p>
-<blockquote>
-<p><strong>Limited fidelity, but can be highly useful still!</strong> <br> E.g., getting familiar with the data, code checking, model building, script writing (code to data procedures)</p>
-</blockquote>
-</section>
-<section id="software-for-generating-dummy-data" class="slide level2">
-<h2>Software for generating dummy data</h2>
-<p><a href="https://github.com/sodascience/metasyn">python library <code>metasyn</code></a></p>
-
-<img data-src="metasyn-git.png" class="r-stretch"></section>
-<section id="metasyn" class="slide level2">
-<h2><code>metasyn</code></h2>
-<ul>
-<li><p>Fit a set of parametric distributions to the observed data</p></li>
-<li><p>Select best fitting model based on information criterion</p></li>
-<li><p>Sample new data from this model</p></li>
-<li><p>Additional implementations for strings (names, addresses) and dates</p></li>
-<li><p>Additional plugins for enhanced privacy settings</p></li>
-</ul>
-</section>
-<section id="high-fidelity-synthetic-data" class="slide level2">
-<h2>High-fidelity synthetic data</h2>
-<ul>
-<li><p>Conditional modelling versus joint modelling</p></li>
-<li><p>Parametric versus non-parametric learning</p></li>
-<li><p>Fully versus partially synthetic data</p></li>
-</ul>
-</section>
-<section id="bounding-information-flow-into-synthesis-model" class="slide level2">
-<h2>Bounding information flow into synthesis model</h2>
-<p>Traditionally: restricting to simpler models</p>
-<ul>
-<li>(Generalized) linear models; identifying influential cases (leverage; degrees of freedom per parameter)</li>
-</ul>
-<p>For non-parametric models:</p>
-<ul>
-<li><p>Regularization</p></li>
-<li><p>Differential privacy</p></li>
-</ul>
-</section></section>
-<section>
-<section id="differential-privacy" class="title-slide slide level1 center">
-<h1>Differential privacy</h1>
-<div class="emph-header">
-<p>Only formal privacy framework as of yet</p>
-</div>
-<ul>
-<li><p>Bounds the maximum influence a single individual can have on a model</p></li>
-<li><p>Adds noise such that the results are almost equivalent regardless of whether this maximally influential individual was present in the data</p></li>
-<li><p>Often performs poorly for conservative values of the privacy parameter</p></li>
-</ul>
-</section>
-<section id="non-parametric-joint-modelling" class="slide level2">
-<h2>Non-parametric joint modelling</h2>
-<p>Often based on deep-learning or copulas</p>
-<p>Superior for structured data (images, geo-spatial data, fMRI)</p>
-<p>Hard to know and communicate what information ends up in the synthetic data</p>
-<p><strong>Software</strong>: <a href="https://github.com/sdv-dev/sdv">Synthetic Data Vault (sdv)</a>, <a href="https://github.com/vanderschaarlab/synthcity">synthcity</a> (<code>python</code>); <a href="https://github.com/mneunhoe/RGAN">RGAN</a></p>
-</section>
-<section id="conditional-modelling" class="slide level2">
-<h2>Conditional modelling</h2>
-<p>Building one model per variable is often easier (conceptually) and provides a lot of flexibility</p>
-<ul>
-<li><p>Model checking (posterior predictive checks)</p></li>
-<li><p>Easier to make refinements</p></li>
-<li><p>More obvious what information ends up in synthetic data</p></li>
-</ul>
-<p><strong>Software</strong>: <a href="https://www.synthpop.org.uk/">synthpop</a> (<code>R</code>, <code>python</code> still in development)</p>
-</section>
-<section id="evaluating-privacy-risk" class="slide level2">
-<h2>Evaluating privacy risk</h2>
-<p><strong>Identity disclosure</strong>: can we infer whether a particular individual was part of a data</p>
-<ul>
-<li>Usually not a big deal, unless identifying are also sensitive (e.g., extremely large incomes are reproduced)</li>
-</ul>
-<div class="fragment">
-<p><strong>Attribute disclosure</strong>: characteristics about individuals can be learned with near certainty</p>
-<ul>
-<li>E.g., all records with the same set of identifying characteristics also share a common sensitive attribute</li>
-</ul>
-</div>
-</section></section>
-<section id="privacy-risks-are-often-more-a-property-of-the-synthesis-method" class="title-slide slide level1 center">
-<h1>Privacy risks are often more a property of the synthesis method</h1>
-
-</section>
-
-<section>
-<section id="evaluating-synthetic-data-utility" class="title-slide slide level1 center">
-<h1>Evaluating synthetic data utility</h1>
-<ol type="1">
-<li><p>Fit-for-purpose</p></li>
-<li><p>Analysis-specific utlity</p></li>
-<li><p>Global utility</p></li>
-</ol>
-</section>
-<section id="fit-for-purpose-measures" class="slide level2">
-<h2>Fit for purpose measures</h2>
-<p>Similar variable types, no impossible values, similar scales</p>
-<p>Evaluate by inspecting the data and making visualizations</p>
-<ul>
-<li>Histograms</li>
-<li>Density plots</li>
-<li>Summary statistics</li>
-</ul>
-</section>
-<section id="analysis-specific-utility" class="slide level2">
-<h2>Analysis specific utility</h2>
-<p>Do analyses on observed and synthetic data yield similar results?</p>
-<p>Compare estimates; confidence interval overlap</p>
-
-<img data-src="index_files/figure-revealjs/CIO-fig-1.png" width="1056" class="r-stretch"></section>
-<section id="global-utility-measures" class="slide level2">
-<h2>Global utility measures</h2>
-<p>Where do the observed and synthetic data distributions diverge?</p>
-<ul>
-<li><p>Density ratio (with <code>densityratio</code> R-package) <span class="math display">\[
-r(\mathbf{x}) = \frac{p_{obs}(\mathbf{x})}{p_{syn}(\mathbf{x})}
-\]</span></p></li>
-<li><p>Classifier-based testing: can we predict which values are real and which are synthetic?</p></li>
-</ul>
-</section>
-<section id="publishing-synthetic-data" class="slide level2">
-<h2>Publishing synthetic data</h2>
-<p>Put privacy over utility!</p>
-<p>Make clear the data is synthetic: filename, title, description, variable names?</p>
-<p>Be as explicit as possible about how the data is generated and what can and cannot be done with it.</p>
 </section></section>
 <section id="questions-comments" class="title-slide slide level1 center">
 <h1>Questions / comments?</h1>
 <p>Feel free to reach out: <a href="mailto:t.b.volker@uu.nl">t.b.volker@uu.nl</a></p>
-<p>Slides: <a href="https://github.com/thomvolker/synzuerich/">https://github.com/thomvolker/synzuerich/</a></p>
+<p>Slides: <a href="https://github.com/thomvolker/dgp-synthetic/">https://github.com/thomvolker/dgp-synthetic/</a></p>
 
 </section>
+
+
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="universiteit-utrecht-logo.png" class="slide-logo"></p>
