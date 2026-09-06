@@ -60,7 +60,7 @@ Narayanan & Shmatikov ([2008](https://systems.cs.columbia.edu/private-systems-cl
 :::
 
 
-## Synthetic data generation outline
+## Synthetic data generation pipeline
 
 1. Privacy risk assessment: _anonymization; identifying sensitive variables_
 
