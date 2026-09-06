@@ -1,3 +1,3 @@
 # readme
 
-The slides are hosted here: https://thomvolker.github.io/synzuerich/
+The slides are hosted here: https://thomvolker.github.io/dgp-synthetic/
