@@ -25,52 +25,42 @@ format:
 :::
 
 
-## Synthetic data
+<!-- ## Synthetic data
 
 > Synthetic data is data that is generated from a statistical model, as opposed to real, collected data
 
 <br>
 
-_Fake data, generated data, digital twins_
-
-## The goal of synthetic data
-
-Capture the most important information about the data in a model
-
-Generate new samples from this model
-
-- What information flows into the model can be bounded
-
-- Modelled relationships that appear in the real data are preserved
+_Fake data, generated data, digital twins_ -->
 
 ## Is anonymizing not enough? 
 
 If done well, anonymization might suffice.
 
-But: data might be linked in suprising ways.
+But: data might be linked in surprising ways.
 
 With enough variables, every record becomes unique.
 
 ## Netflix prize data
 
-Dataset with movie ratings provided by Netflix: movie rating (1-5); submission date (within 14 days)
+Dataset with movie ratings provided by Netflix: movie rating (1-5); submission date
 
 :::{.fragment}
 
 :::{.emph}
 
-Narayanan & Shmatikov ([2008](https://systems.cs.columbia.edu/private-systems-class/papers/Narayanan2008Robust.pdf)) identified 99% of the records
+Narayanan & Shmatikov ([2008](https://systems.cs.columbia.edu/private-systems-class/papers/Narayanan2008Robust.pdf)) showed that 99% of the records can be identified based on
 
 - 8 movie ratings of which 2 were allowed to be incorrect, and dates within a 2 weeks margin.
 
-- Linking to [International Movie Database](https://imdb.com)
+- Movie ratings can be obtained from external data sources
 
 :::
 
 :::
 
 
-## Generating synthetic data
+## Synthetic data generation outline
 
 1. Privacy risk assessment: _anonymization; identifying sensitive variables_
 
@@ -84,15 +74,16 @@ Narayanan & Shmatikov ([2008](https://systems.cs.columbia.edu/private-systems-cl
 
 ## Generating synthetic data
 
-You need a generative model
+Capture the most important information about the data in a *generative* model
 
-$$
-f(D_{syn}|\theta)
-$$
+- Parameters are learned from real data; as opposed to simulated data
 
-You require an (implicit or explicit) model $f$ for the data $D$ with parameters $\theta$
+- Information that flows into the model can be bounded
 
-_Parameters are typically learned from real data; as opposed to simulated data._
+- Relationships in real data can be modelled explicitly
+
+Draw new samples from this model
+
 
 # Don't you ever!
 
@@ -101,25 +92,27 @@ _Parameters are typically learned from real data; as opposed to simulated data._
 
 ## Conditional modelling
 
-Building one model per variable is often easier (conceptually) and provides a lot of flexibility
+One (regression) model per variable
 
-- Model checking (posterior predictive checks)
+- Offers a lot of flexibility
+
+- Allows easy model checking (posterior predictive checks)
 
 - Easier to make refinements
 
-- More obvious what information ends up in synthetic data
+- Transparent what information ends up in synthetic data
 
 __Software__: [synthpop](https://www.synthpop.org.uk/)^[Nowok, Raab & Dibben (2016): [https://www.synthpop.org.uk/](https://www.synthpop.org.uk/)] (`R`, `python`); [simPop](https://github.com/statistikat/simPop) (`R`)^[Templ, Meindl, Kowarik & Dupriez (2017): [https://github.com/statistikat/simPop](https://github.com/statistikat/simPop)]
 
-## Non-parametric joint modelling
+## (Non-parametric) joint modelling
 
-Often based on deep-learning or copulas
+Often based on deep learning
 
-Superior for structured data (images, geo-spatial data, fMRI)
+Superior for unstructured data (images, geo-spatial data, fMRI)
 
 Hard to know and communicate what information ends up in the synthetic data
 
-__Software__: [Synthetic Data Vault (sdv)](https://github.com/sdv-dev/sdv)^[Patki, Wedge & Veeramachaneni, K. (2016): [https://github.com/sdv-dev/sdv](https://github.com/sdv-dev/sdv)], [synthcity](https://github.com/vanderschaarlab/synthcity)^[Qian, Cebere & van der Schaar (2023): [https://github.com/vanderschaarlab/synthcity](https://github.com/vanderschaarlab/synthcity)]; [RGAN](https://github.com/mneunhoe/RGAN)^[Neunhoeffer (2026): [https://github.com/mneunhoe/RGAN](https://github.com/mneunhoe/RGAN)].
+__Software__: [Synthetic Data Vault (sdv)](https://github.com/sdv-dev/sdv)^[Patki, Wedge & Veeramachaneni (2016): [https://github.com/sdv-dev/sdv](https://github.com/sdv-dev/sdv)], [synthcity](https://github.com/vanderschaarlab/synthcity)^[Qian, Cebere & van der Schaar (2023): [https://github.com/vanderschaarlab/synthcity](https://github.com/vanderschaarlab/synthcity)]; [RGAN](https://github.com/mneunhoe/RGAN)^[Neunhoeffer (2026): [https://github.com/mneunhoe/RGAN](https://github.com/mneunhoe/RGAN)].
 
 ## The privacy-utility trade-off
 
@@ -132,7 +125,7 @@ library(ggplot2)
 ggplot(data = data.frame(
   x = c(0.01, 0.95, 0.95, 0.25),
   y = c(-0.05, -1, -0.05, -0.5),
-  label = c("No data", "Original data", "Probably unattainable\noptimal release", "Typical release")
+  label = c("Pure noise", "Original data", "Probably unattainable\noptimal release", "Typical release")
 ), mapping = aes(x = x, y = y, label = label)) +
   stat_function(aes(col = "Theoretical boundary"), fun = \(x) -x^2, linewidth = 1) +
   xlim(0, 1) +
@@ -279,7 +272,7 @@ For non-parametric models:
 Only formal privacy framework as of yet
 :::
 
-- Sensitivity: bounds the maximum influence a single individual can have on a model
+- Sensitivity: the maximum influence a single individual can have on a model
 
 - Adds noise such that the results are almost equivalent regardless of whether this maximally influential individual was present in the data
 
@@ -326,7 +319,7 @@ p <- ggplot(d, aes(x, P, colour = f)) +
 
 - Goal: estimate number of individuals with disease
 
-- __Sensitivity__: Altering one individual affects our estimate with at most $1$
+- __Sensitivity__: Altering one individual affects our estimate by at most $1$
 
 :::
 
@@ -391,7 +384,7 @@ Quality of synthetic data depends entirely on synthesis model
 
 - Overview: Drechsler & Haensch (2024). 30 years of synthetic data. Statistical Science, 39(2), 221-242.
 
-- Tutorial: Volker (2025). Genearting and evaluating synthetic data in R. LMU Open Science Center. [https://doi.org/10.5281/zenodo.18318778](https://doi.org/10.5281/zenodo.18318778)
+- Tutorial: Volker (2025). Generating and evaluating synthetic data in R. LMU Open Science Center. [https://doi.org/10.5281/zenodo.18318778](https://doi.org/10.5281/zenodo.18318778)
 
 - `synthpop` webpage with practical advice: [https://www.synthpop.org.uk/resources.html](https://www.synthpop.org.uk/resources.html)
 

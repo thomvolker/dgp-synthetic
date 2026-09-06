@@ -151,45 +151,35 @@
 <p><img data-src="boys_observed.jpg" class="fragment fade-out" data-fragment-index="1"></p>
 <p><img data-src="boys_synthetic.jpg" class="fragment fade-in" data-fragment-index="1"></p>
 </div>
-</section>
-<section id="synthetic-data-1" class="slide level2">
-<h2>Synthetic data</h2>
-<blockquote>
-<p>Synthetic data is data that is generated from a statistical model, as opposed to real, collected data</p>
-</blockquote>
-<p><br></p>
-<p><em>Fake data, generated data, digital twins</em></p>
-</section>
-<section id="the-goal-of-synthetic-data" class="slide level2">
-<h2>The goal of synthetic data</h2>
-<p>Capture the most important information about the data in a model</p>
-<p>Generate new samples from this model</p>
-<ul>
-<li><p>What information flows into the model can be bounded</p></li>
-<li><p>Modelled relationships that appear in the real data are preserved</p></li>
-</ul>
+<!-- ## Synthetic data
+
+> Synthetic data is data that is generated from a statistical model, as opposed to real, collected data
+
+<br>
+
+_Fake data, generated data, digital twins_ -->
 </section>
 <section id="is-anonymizing-not-enough" class="slide level2">
 <h2>Is anonymizing not enough?</h2>
 <p>If done well, anonymization might suffice.</p>
-<p>But: data might be linked in suprising ways.</p>
+<p>But: data might be linked in surprising ways.</p>
 <p>With enough variables, every record becomes unique.</p>
 </section>
 <section id="netflix-prize-data" class="slide level2">
 <h2>Netflix prize data</h2>
-<p>Dataset with movie ratings provided by Netflix: movie rating (1-5); submission date (within 14 days)</p>
+<p>Dataset with movie ratings provided by Netflix: movie rating (1-5); submission date</p>
 <div class="fragment">
 <div class="emph">
-<p>Narayanan &amp; Shmatikov (<a href="https://systems.cs.columbia.edu/private-systems-class/papers/Narayanan2008Robust.pdf">2008</a>) identified 99% of the records</p>
+<p>Narayanan &amp; Shmatikov (<a href="https://systems.cs.columbia.edu/private-systems-class/papers/Narayanan2008Robust.pdf">2008</a>) showed that 99% of the records can be identified based on</p>
 <ul>
 <li><p>8 movie ratings of which 2 were allowed to be incorrect, and dates within a 2 weeks margin.</p></li>
-<li><p>Linking to <a href="https://imdb.com">International Movie Database</a></p></li>
+<li><p>Movie ratings can be obtained from external data sources</p></li>
 </ul>
 </div>
 </div>
 </section>
-<section id="generating-synthetic-data" class="slide level2">
-<h2>Generating synthetic data</h2>
+<section id="synthetic-data-generation-outline" class="slide level2">
+<h2>Synthetic data generation outline</h2>
 <ol type="1">
 <li><p>Privacy risk assessment: <em>anonymization; identifying sensitive variables</em></p></li>
 <li><p>What’s the goal of the synthetic data: <em>Dummy data, teaching, replication, novel research</em>?</p></li>
@@ -198,14 +188,15 @@
 <li><p>Refinements necessary?</p></li>
 </ol>
 </section>
-<section id="generating-synthetic-data-1" class="slide level2">
+<section id="generating-synthetic-data" class="slide level2">
 <h2>Generating synthetic data</h2>
-<p>You need a generative model</p>
-<p><span class="math display">\[
-f(D_{syn}|\theta)
-\]</span></p>
-<p>You require an (implicit or explicit) model <span class="math inline">\(f\)</span> for the data <span class="math inline">\(D\)</span> with parameters <span class="math inline">\(\theta\)</span></p>
-<p><em>Parameters are typically learned from real data; as opposed to simulated data.</em></p>
+<p>Capture the most important information about the data in a <em>generative</em> model</p>
+<ul>
+<li><p>Parameters are learned from real data; as opposed to simulated data</p></li>
+<li><p>Information that flows into the model can be bounded</p></li>
+<li><p>Relationships in real data can be modelled explicitly</p></li>
+</ul>
+<p>Draw new samples from this model</p>
 </section>
 <section>
 <section id="dont-you-ever" class="title-slide slide level1 center">
@@ -214,21 +205,22 @@ f(D_{syn}|\theta)
 <img data-src="chatsyn.png" class="r-stretch"></section>
 <section id="conditional-modelling" class="slide level2">
 <h2>Conditional modelling</h2>
-<p>Building one model per variable is often easier (conceptually) and provides a lot of flexibility</p>
+<p>One (regression) model per variable</p>
 <ul>
-<li><p>Model checking (posterior predictive checks)</p></li>
+<li><p>Offers a lot of flexibility</p></li>
+<li><p>Allows easy model checking (posterior predictive checks)</p></li>
 <li><p>Easier to make refinements</p></li>
-<li><p>More obvious what information ends up in synthetic data</p></li>
+<li><p>Transparent what information ends up in synthetic data</p></li>
 </ul>
 <p><strong>Software</strong>: <a href="https://www.synthpop.org.uk/">synthpop</a><sup>1</sup> (<code>R</code>, <code>python</code>); <a href="https://github.com/statistikat/simPop">simPop</a> (<code>R</code>)<sup>2</sup></p>
 <aside><ol class="aside-footnotes"><li id="fn1"><p>Nowok, Raab &amp; Dibben (2016): <a href="https://www.synthpop.org.uk/">https://www.synthpop.org.uk/</a></p></li><li id="fn2"><p>Templ, Meindl, Kowarik &amp; Dupriez (2017): <a href="https://github.com/statistikat/simPop">https://github.com/statistikat/simPop</a></p></li></ol></aside></section>
 <section id="non-parametric-joint-modelling" class="slide level2">
-<h2>Non-parametric joint modelling</h2>
-<p>Often based on deep-learning or copulas</p>
-<p>Superior for structured data (images, geo-spatial data, fMRI)</p>
+<h2>(Non-parametric) joint modelling</h2>
+<p>Often based on deep learning</p>
+<p>Superior for unstructured data (images, geo-spatial data, fMRI)</p>
 <p>Hard to know and communicate what information ends up in the synthetic data</p>
 <p><strong>Software</strong>: <a href="https://github.com/sdv-dev/sdv">Synthetic Data Vault (sdv)</a><sup>1</sup>, <a href="https://github.com/vanderschaarlab/synthcity">synthcity</a><sup>2</sup>; <a href="https://github.com/mneunhoe/RGAN">RGAN</a><sup>3</sup>.</p>
-<aside><ol class="aside-footnotes"><li id="fn3"><p>Patki, Wedge &amp; Veeramachaneni, K. (2016): <a href="https://github.com/sdv-dev/sdv">https://github.com/sdv-dev/sdv</a></p></li><li id="fn4"><p>Qian, Cebere &amp; van der Schaar (2023): <a href="https://github.com/vanderschaarlab/synthcity">https://github.com/vanderschaarlab/synthcity</a></p></li><li id="fn5"><p>Neunhoeffer (2026): <a href="https://github.com/mneunhoe/RGAN">https://github.com/mneunhoe/RGAN</a></p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>Patki, Wedge &amp; Veeramachaneni (2016): <a href="https://github.com/sdv-dev/sdv">https://github.com/sdv-dev/sdv</a></p></li><li id="fn4"><p>Qian, Cebere &amp; van der Schaar (2023): <a href="https://github.com/vanderschaarlab/synthcity">https://github.com/vanderschaarlab/synthcity</a></p></li><li id="fn5"><p>Neunhoeffer (2026): <a href="https://github.com/mneunhoe/RGAN">https://github.com/mneunhoe/RGAN</a></p></li></ol></aside></section>
 <section id="the-privacy-utility-trade-off" class="slide level2">
 <h2>The privacy-utility trade-off</h2>
 
@@ -256,7 +248,7 @@ f(D_{syn}|\theta)
 <p>Only formal privacy framework as of yet</p>
 </div>
 <ul>
-<li><p>Sensitivity: bounds the maximum influence a single individual can have on a model</p></li>
+<li><p>Sensitivity: the maximum influence a single individual can have on a model</p></li>
 <li><p>Adds noise such that the results are almost equivalent regardless of whether this maximally influential individual was present in the data</p></li>
 </ul>
 </section>
@@ -267,7 +259,7 @@ f(D_{syn}|\theta)
 <div class="column" style="width:45%;">
 <ul>
 <li><p>Goal: estimate number of individuals with disease</p></li>
-<li><p><strong>Sensitivity</strong>: Altering one individual affects our estimate with at most <span class="math inline">\(1\)</span></p></li>
+<li><p><strong>Sensitivity</strong>: Altering one individual affects our estimate by at most <span class="math inline">\(1\)</span></p></li>
 </ul>
 </div><div class="column" style="width:55%;">
 <div class="r-stack">
@@ -320,7 +312,7 @@ f(D_{syn}|\theta)
 <h2>Some helpful resources</h2>
 <ul>
 <li><p>Overview: Drechsler &amp; Haensch (2024). 30 years of synthetic data. Statistical Science, 39(2), 221-242.</p></li>
-<li><p>Tutorial: Volker (2025). Genearting and evaluating synthetic data in R. LMU Open Science Center. <a href="https://doi.org/10.5281/zenodo.18318778">https://doi.org/10.5281/zenodo.18318778</a></p></li>
+<li><p>Tutorial: Volker (2025). Generating and evaluating synthetic data in R. LMU Open Science Center. <a href="https://doi.org/10.5281/zenodo.18318778">https://doi.org/10.5281/zenodo.18318778</a></p></li>
 <li><p><code>synthpop</code> webpage with practical advice: <a href="https://www.synthpop.org.uk/resources.html">https://www.synthpop.org.uk/resources.html</a></p></li>
 </ul>
 </section></section>
